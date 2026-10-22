@@ -22,13 +22,13 @@ External services include SMTP for email, an LLM and embedding API for mentor ma
 
 The component diagram illustrates the main modules of the platform and their interactions within the FastAPI modular monolith.
 
-![Component Diagram](components.png)
+![Component Diagram](../diagrams/components.png)
 
 ## 4. Initial Architecture
 
 The application consists of three layers: presentation, application, and data. The React client is hosted separately, while the FastAPI backend runs in a Docker container and communicates with PostgreSQL, object storage, and external services.
 
-![Initial Architecture](architecture.png)
+![Initial Architecture](../diagrams/architecture.png)
 
 ## 5. Main Components
 
