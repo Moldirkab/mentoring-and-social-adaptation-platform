@@ -1,0 +1,76 @@
+@startuml components
+title Component diagram (MSAP-10, v2): microservices, 5 services + API gateway
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #444444
+skinparam nodesep 35
+skinparam ranksep 70
+
+actor "Mentee" as Mentee
+actor "Mentor" as Mentor
+actor "Coordinator" as Coord
+actor "Administrator" as Admin
+
+package "Frontend" {
+  component "Web client\n(React + TypeScript + Vite)" as Client
+}
+
+component "API Gateway\n(Traefik: TLS, routing,\nForwardAuth, rate limit)" as GW
+
+package "Backend services (Python 3.12, FastAPI + grpcio)" {
+  component "Identity & Access\nauth, roles, consent,\norganisations, audit log" as IAM
+  component "Profile & Core Management\nprofiles, applications,\nmentor verification, search" as PROF
+  component "Mentoring & Progress\npairs, meetings, goals,\ncomplaints, dashboard" as MENT
+  component "Communication & Signaling\nchat, notifications,\nvideo signaling" as COMM
+  component "AI Matching\nfilters -> weighted score ->\nembeddings -> top-5\n(does NOT create matches)" as AI
+}
+
+package "Data (PostgreSQL 16, database per service)" {
+  database "identity_db" as DB1
+  database "profile_db" as DB2
+  database "mentoring_db" as DB4
+  database "communication_db" as DB5
+  database "matching_db\n(+ pgvector)" as DB3
+}
+
+storage "Object storage\n(S3 / MinIO)" as S3
+cloud "Embedding provider\n(self-hosted preferred)" as EMB
+cloud "Email (SMTP)\nSMS / push" as MAIL
+cloud "Video service" as VIDEO
+
+Mentee --> Client
+Mentor --> Client
+Coord --> Client
+Admin --> Client
+
+Client --> GW : REST (OpenAPI) + WebSocket\nHTTPS + JWT
+
+GW --> IAM : ForwardAuth
+GW --> PROF : REST
+GW --> MENT : REST
+GW --> COMM : REST / WebSocket
+
+MENT -left-> PROF : gRPC\nIsMentorVerified
+MENT --> AI : gRPC\nGetRecommendations
+PROF ..> AI : outbox: ProfileUpdated\n(pseudonymised)
+MENT ..> COMM : outbox: PairCreated,\nMeetingReminder
+
+IAM --> DB1
+PROF --> DB2
+MENT --> DB4
+COMM --> DB5
+AI --> DB3
+
+PROF --> S3 : documents
+AI --> EMB : only AI egress
+COMM --> MAIL
+COMM --> VIDEO : links, signaling
+
+legend right
+  solid arrow between services = synchronous gRPC (deadline, mTLS)
+  dashed arrow = event via transactional outbox, delivered over gRPC
+  ComplaintSubmitted: Communication -> Mentoring (outbox)
+  role and organisation travel in the token / gRPC metadata
+endlegend
+@enduml
