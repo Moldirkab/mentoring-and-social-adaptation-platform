@@ -1,0 +1,154 @@
+@startuml use-case
+title Use case diagram: mentoring and social adaptation platform
+left to right direction
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #444444
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #444444
+}
+skinparam packageStyle rectangle
+skinparam package {
+  BorderColor #AAAAAA
+  FontColor #555555
+}
+
+' ---------- Primary actors ----------
+actor "User" as User
+actor "Mentee\n(14-23)" as Mentee
+actor "Mentor\n(volunteer)" as Mentor
+actor "Coordinator\n(NGO / orphanage)" as Coordinator
+actor "Administrator" as Administrator
+
+' ---------- Secondary actors (external systems) ----------
+actor "Email service\n(SMTP)" as Email <<system>>
+actor "Video meeting\nservice" as Video <<system>>
+actor "LLM / embedding\nAPI" as LLM <<system>>
+
+rectangle "Mentoring and social adaptation platform" {
+
+  package "Account (all users)" {
+    usecase "Sign in" as UC14
+    usecase "Manage profile" as UC15
+    usecase "Receive notifications" as UC16
+  }
+
+  package "Mentee" as PMentee {
+    usecase "State matching\npreferences" as UC18
+    usecase "Complete skills track\nand goals" as UC5
+    usecase "Give meeting feedback" as UC24
+  }
+
+  package "Pair communication" {
+    usecase "Chat" as UC2
+    usecase "Attach file" as UC22
+    usecase "Report a problem" as UC6
+    usecase "Plan meeting" as UC3
+    usecase "Confirm or decline\nmeeting" as UC23
+  }
+
+  package "Mentor" as PMentor {
+    usecase "Submit application" as UC1
+    usecase "Upload criminal\nrecord certificate" as UC17
+    usecase "Write meeting notes" as UC4
+  }
+
+  package "Vetting and matching" {
+    usecase "Approve application" as UC7
+    usecase "Browse and filter\nmentors" as UC20
+    usecase "Create pair" as UC8
+    usecase "Get recommendations\ntop-5" as UC9
+    usecase "Rank with AI" as UC19
+  }
+
+  package "Monitoring and safety" {
+    usecase "Monitor pair activity" as UC12
+    usecase "View pair chat" as UC10
+    usecase "Handle complaint" as UC11
+    usecase "Pause or end pair" as UC21
+    usecase "Register mentee under 18\nwith consent" as UC25
+    usecase "Deactivate account" as UC26
+  }
+
+  package "Administration" {
+    usecase "Manage users and\norganisations" as UC13
+    usecase "Configure matching\nweights and AI" as UC27
+  }
+}
+
+' ---------- Generalisation: every role is a User ----------
+Mentee -up-|> User
+Mentor -up-|> User
+User <|-- Coordinator
+User <|-- Administrator
+
+' ---------- All users ----------
+User -- UC14
+User -- UC15
+User -- UC16
+
+' ---------- Mentee ----------
+Mentee -- UC18
+Mentee -- UC2
+Mentee -- UC6
+Mentee -- UC3
+Mentee -- UC23
+Mentee -- UC24
+Mentee -- UC5
+
+' ---------- Mentor ----------
+Mentor -- UC1
+Mentor -- UC2
+Mentor -- UC6
+Mentor -- UC3
+Mentor -- UC23
+Mentor -- UC4
+
+' ---------- Coordinator ----------
+UC7 -- Coordinator
+UC25 -- Coordinator
+UC9 -- Coordinator
+UC20 -- Coordinator
+UC8 -- Coordinator
+UC21 -- Coordinator
+UC10 -- Coordinator
+UC11 -- Coordinator
+UC12 -- Coordinator
+UC26 -- Coordinator
+UC27 -- Coordinator
+
+' ---------- Administrator ----------
+UC13 -- Administrator
+UC27 -- Administrator
+
+' Layout hints: keep coordinator use cases in a column to the right of member use cases
+UC1 -[hidden]- UC7
+UC18 -[hidden]- UC9
+UC2 -[hidden]- UC10
+UC6 -[hidden]- UC11
+UC3 -[hidden]- UC12
+UC5 -[hidden]- UC25
+UC14 -[hidden]- UC13
+
+' ---------- Include / extend ----------
+UC1 ..> UC17 : <<include>>
+UC8 ..> UC9 : <<include>>
+UC19 ..> UC9 : <<extend>>\nif AI is enabled
+UC22 ..> UC2 : <<extend>>
+UC6 ..> UC2 : <<extend>>
+UC6 ..> UC16 : <<include>>\nurgent alert
+UC11 ..> UC21 : <<extend>>\npause pair
+
+' ---------- External systems ----------
+UC16 -- Email
+UC3 -- Video
+UC19 -- LLM
+
+note right of LLM
+  AI ranking is advisory only: the
+  coordinator chooses the mentor.
+  Only pseudonymised text is sent; no data
+  of mentees under 18.
+end note
+@enduml
