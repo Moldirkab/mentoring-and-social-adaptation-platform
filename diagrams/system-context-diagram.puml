@@ -1,0 +1,51 @@
+
+@startuml context
+!pragma layout smetana
+!include <C4/C4_Context>
+
+title System context diagram (C4 level 1): mentoring and social adaptation platform
+
+LAYOUT_LEFT_RIGHT()
+HIDE_STEREOTYPE()
+AddRelTag("optional", $lineStyle = DashedLine())
+AddElementTag("optional", $borderStyle = DashedLine(), $borderColor = "#444444")
+
+Person(mentee, "Mentee", "Orphanage resident or boarding school graduate, 14-23. Under 18: account created by a coordinator.")
+Person(mentor, "Mentor", "Volunteer adult. Works with mentees only after the coordinator approves the application.")
+Person(coord, "Coordinator", "Staff of an NGO or orphanage. Verifies mentors, forms and monitors pairs.")
+Person(admin, "Administrator", "Manages organisations, user accounts and platform settings.")
+
+Boundary(b, "System boundary: mentoring platform") {
+  System(platform, "Mentoring and social adaptation platform", "Responsive, mobile-first web application. Profiles, mentor applications, matching, pairs, chat, meetings, goals and skill tracks, coordinator analytics and notifications.")
+}
+
+System_Ext(mail, "Email service (SMTP)", "Delivers notifications, reminders and account emails.")
+System_Ext(push, "SMS / push gateway", "Optional channel for urgent safety alerts and reminders.", $tags = "optional")
+System_Ext(video, "Video meeting service", "External provider; the platform stores only the meeting link.")
+System_Ext(ai, "AI recommendation service", "Supports mentor-mentee matching using profile information, interests and goals.")
+System_Ext(storage, "Cloud hosting and object storage", "Hosts the platform and provides S3-compatible storage for mentor documents.")
+
+Rel(mentee, platform, "Chats with mentor, plans meetings, follows goals and skill tracks, reports a problem", "HTTPS")
+Rel(mentor, platform, "Submits application and documents, chats, plans meetings, writes notes", "HTTPS")
+Rel(coord, platform, "Reviews applications, receives recommendations, creates pairs, handles complaints and monitors activity", "HTTPS")
+Rel(admin, platform, "Manages users, roles and organisations", "HTTPS")
+
+Rel(platform, mail, "Sends notifications and 24-hour reminders", "SMTP")
+Rel(platform, push, "Sends urgent alerts and reminders", "HTTPS API", $tags = "optional")
+Rel(platform, video, "Creates or stores meeting links", "HTTPS / link")
+Rel(platform, ai, "Provides matching data and receives recommendations", "HTTPS API")
+Rel(platform, storage, "Stores and retrieves mentor documents", "S3 API")
+
+skinparam legendBackgroundColor #FFFFFF
+skinparam legendFontColor #222222
+skinparam legendBorderColor #888888
+
+legend right
+  Dark blue: person (external actor)
+  Blue: the system being designed
+  Grey: external system or service
+  Dashed box: system boundary
+  Dashed line / border: optional integration
+endlegend
+
+@enduml
