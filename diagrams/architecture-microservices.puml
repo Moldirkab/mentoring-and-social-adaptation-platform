@@ -1,0 +1,61 @@
+@startuml architecture
+title Initial architecture (MSAP-10, v2): layers and deployment, microservices
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam ArrowColor #444444
+skinparam ranksep 55
+
+actor "Users\n(mentee, mentor, coordinator, admin)" as U
+
+rectangle "1. Presentation layer" #E8F1FB {
+  node "Web container (nginx)" {
+    component "React SPA\n(browser, mobile 360 px+)" as SPA
+  }
+}
+
+node "Docker Compose host" {
+  rectangle "2. Edge (public network)" #FFF7D6 {
+    component "Traefik API Gateway\nTLS, routing by labels,\nForwardAuth, rate limit,\ncorrelation ID" as GW
+  }
+
+  rectangle "3. Service layer (internal network, gRPC + mTLS)" #EEF7EA {
+    component "Identity & Access" as IAM
+    component "Profile & Core\nManagement" as PROF
+    component "Mentoring &\nProgress" as MENT
+    component "Communication &\nSignaling" as COMM
+    component "AI Matching" as AI
+    note bottom of AI : each service = FastAPI (REST)\n+ grpcio (gRPC) + outbox worker,\nown container, own DB credentials
+  }
+
+  rectangle "4. Data layer (data network)" #FDF3E6 {
+    database "PostgreSQL 16\n5 logical databases\n(pgvector in matching_db)" as PG
+    storage "MinIO (S3)" as S3
+    collections "Redis\n(optional)" as REDIS
+  }
+}
+
+rectangle "External services" #F3EEF8 {
+  cloud "Embedding provider" as EMB
+  cloud "SMTP / SMS / push" as MAIL
+  cloud "Video service" as VIDEO
+}
+
+U --> SPA : HTTPS
+SPA --> GW : REST + WebSocket\n(HTTPS, JWT)
+GW --> IAM
+GW --> PROF
+GW --> MENT
+GW --> COMM
+MENT --> AI : gRPC
+MENT --> PROF : gRPC
+IAM --> PG
+PROF --> PG
+MENT --> PG
+COMM --> PG
+AI --> PG
+PROF --> S3
+COMM ..> REDIS : WS fan-out
+AI --> EMB : AI egress only here
+COMM --> MAIL
+COMM --> VIDEO
+@enduml
