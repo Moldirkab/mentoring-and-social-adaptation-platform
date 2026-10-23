@@ -9,17 +9,21 @@
 
 ### 1.1. Problem Statement
 
-Graduates of orphanages and boarding schools may face challenges when transitioning to independent adult life. These challenges can include managing personal finances, finding housing, handling official documents, seeking employment, and building supportive social relationships.
+Graduates of orphanages and boarding schools may face challenges when transitioning to independent adult life, including developing daily-living skills, maintaining supportive relationships, continuing education, and finding employment [1].
 
-Mentoring programmes organized by non-governmental organizations (NGOs) and social institutions can help young people navigate these challenges. However, when mentoring activities rely on spreadsheets, manual coordination, and personal messaging applications, managing relationships and monitoring progress may become difficult as the number of participants increases.
+Research conducted in Kazakhstan highlights the importance of socialisation and support for young people who have lived in orphanages [2].
+
+Mentoring programmes can help young people develop social connections and receive guidance as they work toward personal goals [1]. Digital mentoring research also identifies security, privacy, and communication as important considerations when designing platforms for young people and their mentors [3].
 
 This project addresses three main problems:
 
-1. **Limited scalability of mentoring coordination.** Managing participant information, selecting compatible mentor–mentee pairs, and following up on their activities manually can increase the workload of coordinators.
-2. **Communication and safeguarding risks.** Communication between adult mentors and underage mentees through uncontrolled channels can make it more difficult to establish appropriate safeguarding procedures and oversee reported concerns.
-3. **Limited progress monitoring.** Without structured records of meetings, goals, and completed activities, organizations may have difficulty tracking participation and evaluating mentoring outcomes.
+1. **Limited scalability of mentoring coordination.** Managing participant information, selecting compatible mentor–mentee pairs, and following up on activities manually may increase the workload of coordinators. Research on two-sided matching demonstrates that allocating mentors and mentees can involve multiple preferences and matching constraints [4].
 
-The proposed platform will centralize participant information, support mentor–mentee matching, facilitate communication, and provide coordinators with tools for managing mentoring relationships and monitoring activities.
+2. **Communication and safeguarding risks.** Communication between adult mentors and underage mentees through uncontrolled channels can make it more difficult to establish appropriate safeguarding procedures and oversee reported concerns. Research on digital mentoring highlights the importance of security and control in platform design [3].
+
+3. **Limited progress monitoring.** Without structured records of meetings, goals, and completed activities, organizations may find it difficult to track participation and evaluate mentoring outcomes. Research on care leavers identifies the importance of support during the transition to independent living [1].
+
+The proposed platform will centralize participant information, support mentor–mentee matching, facilitate communication, and provide coordinators with tools for managing mentoring relationships and monitoring activities. Its design will incorporate requirements identified in digital mentoring research [3]. Computational matching methods will inform the development of the recommendation component [5].
 
 The extent of these problems and the specific needs of the intended users will be investigated through literature review, existing-system analysis, and stakeholder research. Claims about current organizational practices will be verified where possible rather than treated as established findings without evidence.
 
@@ -32,11 +36,11 @@ The platform is intended for the following user groups:
 - **Coordinators:** NGO representatives or institutional staff responsible for reviewing mentor applications, managing mentoring pairs, monitoring activities, and addressing reported concerns.
 - **Platform administrators:** Authorized users responsible for technical administration, user-role management, and platform configuration.
 
-Participation by minors will require appropriate institutional authorization, consent arrangements, and safeguarding procedures. The platform will apply role-based access and appropriate restrictions to sensitive participant information.
+Participation by minors will require appropriate institutional authorization, consent arrangements, and safeguarding procedures. The platform will apply role-based access and appropriate restrictions to sensitive participant information. The emphasis on security and control is consistent with needs identified in digital mentoring research [3].
 
 ### 1.3. Project Aim
 
-The aim of this project is to design and develop a responsive web platform that supports the mentoring cycle, facilitates safe mentor–mentee communication, and enables coordinators to manage mentoring relationships and monitor participant activities.
+The aim of this project is to design and develop a responsive web platform that supports the mentoring cycle, facilitates safe mentor–mentee communication, and enables coordinators to manage mentoring relationships and monitor participant activities. The platform's focus on social adaptation is informed by research on young people transitioning from institutional care [2].
 
 ### 1.4. Project Objectives
 
@@ -94,7 +98,7 @@ The following functionality is planned for the project. The team will prioritize
 
 The MVP will prioritize authentication and authorization, participant profiles, mentor application review, matching recommendations, coordinator-controlled pairing, problem reporting, and essential communication. Meeting management, goals, learning tracks, and email notifications will be implemented according to the team's available time and the agreed acceptance criteria.
 
-Machine-learning-based matching will be investigated as a technical component. A transparent rule-based or weighted-scoring baseline will be established first. A machine-learning model will be evaluated if suitable data are available. Synthetic data, if used, will be clearly identified and will not be presented as evidence of real-world matching effectiveness.
+Machine-learning-based matching will be investigated as a technical component. A transparent rule-based or weighted-scoring baseline will be established first. A machine-learning model will be evaluated if suitable data are available. Previous research has explored computational methods for mentor–mentee matching [4]. Hybrid machine-learning approaches have also been proposed for this task [5]. Synthetic data, if used, will be clearly identified and will not be presented as evidence of real-world matching effectiveness.
 
 ### 2.2. Out of Scope
 
@@ -109,3 +113,15 @@ The following features are excluded from the planned MVP:
 | OUT-05 | Automatic mentor approval or final pairing                    | Mentor approval and final matching decisions will remain under authorized coordinator control.                   |
 
 Features excluded from the MVP may be considered in future development, but they will not be treated as required deliverables for the initial implementation.
+
+## References
+
+[1] A. E. Thompson and J. K. P. Greeson, “Prosocial activities and natural mentoring among youth at risk of aging out of foster care,” _Journal of the Society for Social Work and Research_, vol. 8, no. 3, pp. 421–440, 2017, doi: 10.1086/693119.
+
+[2] A. Sadyrova and Z. Simtikov, “Socialisation and experience of living in orphanages during childhood,” _International Journal of Child Care and Education Policy_, vol. 19, Art. no. 2, 2025, doi: 10.1186/s40723-025-00142-5.
+
+[3] R. L. Radlick, J. Mirkovic, S. Przedpelska, E. H. Brendmo, and D. Gammon, “Experiences and needs of multicultural youth and their mentors, and implications for digital mentoring platforms: Qualitative exploratory study,” _JMIR Formative Research_, vol. 4, no. 2, Art. no. e15500, 2020, doi: 10.2196/15500.
+
+[4] C. Haas, M. Hall, and S. L. Vlasnik, “Finding optimal mentor-mentee matches: A case study in applied two-sided matching,” _Heliyon_, vol. 4, no. 6, Art. no. e00634, 2018, doi: 10.1016/j.heliyon.2018.e00634.
+
+[5] J. Varghese and M. Mohaghegh, “Personality-based hybrid machine learning model for mentor-mentee matching using collaborative and content filtering methods,” in _Proc. 2023 7th International Symposium on Multidisciplinary Studies and Innovative Technologies (ISMSIT)_, 2023, pp. 1–6, doi: 10.1109/ISMSIT58785.2023.10304908.
