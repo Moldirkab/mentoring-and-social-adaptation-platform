@@ -14,7 +14,7 @@ This document defines what the mentoring and social adaptation platform must do 
 | **Acceptance criterion** | A condition that is either met or not met. Written as *Given / When / Then* or as a numeric threshold. |
 | **Verify** | How fulfilment is checked: **T** automated test (unit, API or end-to-end), **L** load or performance test, **S** security scan or security test, **I** inspection of code, configuration or logs, **U** usability test with participants. |
 
-A mandatory (M) requirement counts as fulfilled only when every part of its acceptance criterion passes. The checks are planned in [TESTING_REPORT.md](TESTING_REPORT.md); every M requirement has at least one automated check (T, L or S) unless the Verify column says otherwise.
+A mandatory (M) requirement counts as fulfilled only when every part of its acceptance criterion passes. Every M requirement has at least one automated check (T, L or S) unless the Verify column says otherwise.
 
 ### 1.2 Roles
 
@@ -187,7 +187,40 @@ AI features extend the weighted matching in FR-05 and are planned after the base
 | W (won't) | 1 | 0 | 1 |
 | **Total** | **43** | **20** | **63** |
 
-## 5. Security and MaintainabilitySecurity Updates (Aligned with NFR-01): Passwords must be hashed using Argon2id (or bcrypt). The platform must enforce HTTPS only, utilize short-lived access tokens with refresh rotation, and implement sign-in rate limiting.   API Documentation & Maintainability (Aligned with NFR-17): The API must be described by an OpenAPI specification generated directly from the code. Automated test coverage of the business-logic layer must reach at least 70%, with a linter running in CI with zero errors.   Portability & Deployment (Aligned with NFR-18): The platform must support repeatable environment setup via containerization (e.g., docker compose up), with configuration managed strictly through environment variables and no secrets stored in the repository.   
+## 5. Security and Maintainability
+
+### 5.1 Security Updates
+
+**Aligned with NFR-01**
+
+Passwords must be hashed using Argon2id or bcrypt. The platform must enforce HTTPS, use short-lived access tokens with refresh-token rotation, and implement sign-in rate limiting.
+
+### 5.2 API Documentation and Maintainability
+
+**Aligned with NFR-17**
+
+The API must be documented using an OpenAPI specification generated directly from the code. Automated test coverage of the business-logic layer must reach at least 70%. A linter must run in the CI pipeline with zero errors.
+
+### 5.3 Portability and Deployment
+
+**Aligned with NFR-18**
+
+The platform must support repeatable environment setup through containerization, for example, using `docker compose up`. Configuration must be managed through environment variables, and no secrets may be stored in the repository.
+
+## 6. Final Technology Selection: AI Integration
+
+### 6.1 AI and Embedding Support
+
+**Aligned with FR-35, FR-38, and FR-39**
+
+If AI features, such as semantic ranking or LLM-based justifications, are enabled, the technology stack must support integration with external or self-hosted embedding and large language model (LLM) APIs.
+
+The implementation must enforce the data-minimisation requirements defined in the functional requirements:
+
+- Personal data of mentees under 18 must not be sent to external AI providers.
+- Names, contact details, birth dates, documents, chat messages, and meeting notes must not be sent to external AI services.
+- Only permitted pseudonymised interest and goal text may be transmitted to an external provider.
+- If external AI services are unavailable, the system must fall back to the weighted baseline matching approach, as specified in FR-40.
 
 
 6. Final Technology Selection (AI Integration Additions)
