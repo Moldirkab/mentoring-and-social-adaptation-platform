@@ -71,6 +71,20 @@ In Kazakhstan, 11.5% of graduates in the 2026 study often had psychological prob
 - Mentors must report threats to the child's life or health and keep the child's information confidential.
 
 **Scale.** More than 360 mentors work in 20 regions (January 2026) [1]. Against roughly 3,700–4,000 children in institutions [2], [3], this is fewer than one mentor per ten children, assuming one child per mentor (our rough calculation).
+### 3.7 Primary Research: Stakeholder Interviews
+
+To complement the published evidence, three qualitative interviews were conducted with stakeholders: two orphanage graduates and one former volunteer mentor with more than three years of experience working in a residential care institution.
+
+The graduates discussed challenges associated with the transition to independent living, including housing, administrative procedures, employment, access to support, and the importance of long-term support networks. The former mentor provided insights into institutional challenges, usability barriers, and difficulties maintaining contact with graduates and monitoring their progress.
+
+The findings informed the initial system requirements:
+
+- **Independent-living support:** goal-setting and progress tracking, supported by verified information and links to official resources.
+- **Mentor matching and communication:** recommendations for suitable mentors and a communication channel with reporting functionality.
+- **Usability:** responsive interfaces and clear, accessible language.
+- **Ongoing mentoring :** match management, meeting scheduling, notifications, and progress monitoring.
+
+These interviews provide preliminary qualitative evidence that complements the published research. Because the sample consisted of only three participants, the findings are exploratory and cannot be generalised to all graduates or mentors in Kazakhstan.
 
 ## 4. Data points
 
